@@ -12,24 +12,30 @@ def parse_personal_cabinet_fields():
         line = pc.read().decode('utf8')
 
         # Parsing
-        format_string = '<div class="stage-cards__head-text">{}</div>'
-        findall_result = parse.findall(format_string, line.strip())
+        format_string_score = '<div class="stage-cards__card">{}<div class="stage-cards__head-text">{}</div>{}Балл отборочного этапа{}<div class="stage-cards__value">{}</div>'
+        findall_result = parse.findall(format_string_score, line.strip())
 
         fields_list = []
+        score_list = []
 
         for result in findall_result:
-            full_name = result[0]
+            full_name = result[1]
+            score = result[4] if result[4] != '<div class="stage-cards__empty-text">-' else '-'
             field_name = full_name[:full_name.rfind('(') - 1]
             category = full_name[full_name.rfind('(') + 1: -1]
             fields_list.append(field_name)
+            score_list.append(score)
 
-        return fields_list, category
+        return fields_list, category, score_list
 
 
 if __name__ == '__main__':
-    fields_list_, category_ = parse_personal_cabinet_fields()
+    fields_list_, category_, score_list_ = parse_personal_cabinet_fields()
 
-    print(*fields_list_, sep='\n')
+    for i in range(len(fields_list_)):
+        if score_list_[i] != '-':
+            print(fields_list_[i], score_list_[i], sep='\t')
+
     print()
     print(f'Всего направлений: {len(fields_list_)}')
     print(f'Категория участия: {category_}')
