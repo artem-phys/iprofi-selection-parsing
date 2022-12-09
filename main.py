@@ -5,7 +5,7 @@ from parse_selection_round_schedule import parse_selection_round_schedule
 with open('template_calendar.ics', "r") as template_calendar:
     calendar_string = template_calendar.read()
 
-fields_list, category = parse_personal_cabinet_fields()
+fields_list, category, score_list = parse_personal_cabinet_fields()
 fields_schedule_dict = parse_selection_round_schedule()
 
 calendar_file = 'iprofi_selection_round.ics'
