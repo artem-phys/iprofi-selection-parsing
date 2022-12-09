@@ -19,12 +19,18 @@ def parse_personal_cabinet_fields():
         score_list = []
 
         for result in findall_result:
-            second_field_result = parse.parse('{}<div class="stage-cards__head-text">{}</div>{}', result[2])
+            cs = result[2]
+            ls = cs
+            new_result = parse.parse('{}<div class="stage-cards__head-text">{}</div>{}', ls)
+            while not (new_result is None):
+                cs = new_result[1]
+                ls = new_result[2]
+                new_result = parse.parse('{}<div class="stage-cards__head-text">{}</div>{}', ls)
 
-            if second_field_result is None:
+            if cs == result[2]:
                 full_name = result[1]
             else:
-                full_name = second_field_result[1]
+                full_name = cs
             score = result[4] if result[4] != '<div class="stage-cards__empty-text">-' else '-'
             field_name = full_name[:full_name.rfind('(') - 1]
             category = full_name[full_name.rfind('(') + 1: -1]
