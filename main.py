@@ -12,7 +12,7 @@ fields_score_limits_dict_ = parse_score_limits()
 
 calendar_file = 'iprofi_selection_round.ics'
 
-with open(calendar_file, "w") as calendar:
+with open(calendar_file, "w", encoding='utf-8') as calendar:
     calendar.write(calendar_string)
 
     for field_name in fields_list:
